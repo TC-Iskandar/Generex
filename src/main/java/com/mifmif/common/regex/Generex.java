@@ -349,6 +349,10 @@ public class Generex implements Iterable {
 					return strMatch;
 				}
 			}
+			//Turns any case where we exceed maxlength into a dead branch
+			if(strMatch.length()>=maxLength){
+				return "";
+			}
 			if (transitions.size() == 0) {
 				return strMatch;
 			}
@@ -365,7 +369,7 @@ public class Generex implements Iterable {
 			char randomChar = (char) (randomOffset + randomTransition.getMin());
 			result = prepareRandom(strMatch + randomChar, randomTransition.getDest(), minLength, maxLength);
 			int resultLength = result.length();
-			if (minLength <= resultLength && resultLength <= maxLength) {
+			if (minLength <= resultLength && resultLength <= maxLength && result != "") {
 				break;
 			}
 		}
