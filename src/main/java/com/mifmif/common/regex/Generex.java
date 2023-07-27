@@ -336,8 +336,19 @@ public class Generex implements Iterable {
 		return prepareRandom("", automaton.getInitialState(), minLength, maxLength);
 	}
 
+	public Map<Integer, Transition> convertToMap(List<Transition> list) {
+		Map<Integer, Transition> map = new HashMap<>();
+		int index=0;
+		for (Transition transition : list) {
+			int range= transition.getMax()-transition.getMin();
+			index+=range;
+			map.put(index, transition);
+		}
+		return map;
+	}
+
 	private String prepareRandom(String strMatch, State state, int minLength, int maxLength) {
-		List<Transition> transitions = state.getSortedTransitions(false);
+		Map<Integer, Transition> transitions = convertToMap(state.getSortedTransitions(false));
 		Set<Integer> selectedTransitions = new HashSet<Integer>();
 		String result = strMatch;
 		while (transitions.size() > selectedTransitions.size()) {
